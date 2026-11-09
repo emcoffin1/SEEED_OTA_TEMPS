@@ -301,15 +301,28 @@ void startBleOta(const char *firmwareVersion, uint8_t deviceLocation,
   writeLe32(payload + 6, versionCrc32(firmwareVersion));
 
   NimBLEAdvertisementData advertisement;
-  advertisement.setServiceData(NimBLEUUID(SERVICE_UUID), payload,
-                               sizeof(payload));
+
+  const bool flagsOkay = advertisement.setFlags(
+      BLE_HS_ADV_F_DISC_GEN | BLE_HS_ADV_F_BREDR_UNSUP);
+
+  const bool serviceDataOkay = advertisement.setServiceData(
+      NimBLEUUID(SERVICE_UUID), payload, sizeof(payload));
+
   NimBLEAdvertising *advertising = NimBLEDevice::getAdvertising();
-  advertising->setAdvertisementData(advertisement);
   advertising->enableScanResponse(false);
   advertising->setMinInterval(160);
   advertising->setMaxInterval(320);
-  NimBLEDevice::startAdvertising();
-  Serial.println("BLE temperature and signed OTA service advertising.");
+
+  const bool advertisementOkay =
+      advertising->setAdvertisementData(advertisement);
+
+  const bool started = NimBLEDevice::startAdvertising();
+
+  Serial.printf(
+      "BLE flags=%d serviceData=%d payload=%u set=%d started=%d active=%d\n",
+      flagsOkay, serviceDataOkay,
+      static_cast<unsigned>(advertisement.getPayload().size()),
+      advertisementOkay, started, advertising->isAdvertising());
 }
 
 void waitForBleWindow(uint32_t discoveryWindowMs, uint32_t maxTransferMs) {

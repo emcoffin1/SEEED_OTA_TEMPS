@@ -176,6 +176,8 @@ void sampleTemperature() {
 
 void setup() {
   Serial.begin(115200);
+  Serial.printf("Firmware %s target: %s.\n", FIRMWARE_VERSION,
+                ACTIVE_DEVICE_NAME);
 
   const esp_sleep_wakeup_cause_t wakeCause = esp_sleep_get_wakeup_cause();
   if (wakeCause == ESP_SLEEP_WAKEUP_TIMER) {

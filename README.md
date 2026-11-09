@@ -85,23 +85,23 @@ cd ~/Documents/PlatformIO/Projects/XIAO_ESP32C3_Temp
 
 ~/.platformio/penv/bin/platformio run -e kitchen -e living_room
 
-mkdir -p releases/temperature-7/kitchen releases/temperature-7/living_room
-cp .pio/build/kitchen/firmware.bin releases/temperature-7/kitchen/firmware.bin
+mkdir -p releases/temperature-8/kitchen releases/temperature-8/living_room
+cp .pio/build/kitchen/firmware.bin releases/temperature-8/kitchen/firmware.bin
 cp .pio/build/living_room/firmware.bin \
-  releases/temperature-7/living_room/firmware.bin
+  releases/temperature-8/living_room/firmware.bin
 
 openssl dgst -sha256 \
   -sign ../XIAO_ESP32C3_OTA_Bootstrap/keys/ota_private.pem \
-  -out releases/temperature-7/kitchen/firmware.sig \
-  releases/temperature-7/kitchen/firmware.bin
+  -out releases/temperature-8/kitchen/firmware.sig \
+  releases/temperature-8/kitchen/firmware.bin
 openssl dgst -sha256 \
   -sign ../XIAO_ESP32C3_OTA_Bootstrap/keys/ota_private.pem \
-  -out releases/temperature-7/living_room/firmware.sig \
-  releases/temperature-7/living_room/firmware.bin
+  -out releases/temperature-8/living_room/firmware.sig \
+  releases/temperature-8/living_room/firmware.bin
 ```
 
 Verify each signature before publishing. Each binary must contain
-`temperature-7` and exactly its intended room. Publish the two room directories
+`temperature-8` and exactly its intended room. Publish the two room directories
 one at a time using the matching target; never reuse one room's binary for the
 other room.
 
