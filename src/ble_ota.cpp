@@ -310,8 +310,10 @@ void startBleOta(const char *firmwareVersion, uint8_t deviceLocation,
 
   NimBLEAdvertising *advertising = NimBLEDevice::getAdvertising();
   advertising->enableScanResponse(false);
-  advertising->setMinInterval(160);
-  advertising->setMaxInterval(320);
+  // BLE advertising intervals use 0.625 ms units. Advertise once every five
+  // seconds while this bench-test firmware remains awake.
+  advertising->setMinInterval(8000);
+  advertising->setMaxInterval(8000);
 
   const bool advertisementOkay =
       advertising->setAdvertisementData(advertisement);

@@ -206,9 +206,9 @@ void setup() {
   if (WiFi.status() == WL_CONNECTED) {
     checkForSignedFirmwareUpdate();
   }
-  enterDeepSleep();
+  Serial.println("Deep sleep disabled; remaining awake for BLE advertising.");
 }
 
 void loop() {
-  // The device always enters deep sleep before setup() finishes.
+  delay(1000);
 }
